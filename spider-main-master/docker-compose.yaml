@@ -17,7 +17,7 @@ services:
   migrate:
     image : migrate/migrate
     networks:
-      - new
+      - raim
     volumes:
       - ./migrations:/migrations
     command: ["-path", "/migrations", "-database",  "postgres://postgres:1952@database:5432/postsdb?sslmode=disable", "up", "1"]
@@ -26,7 +26,7 @@ services:
 
   scrapper-api:
     networks:
-      - new
+      - raim
     build: scrapper
     ports :
       - "8080:8080"
@@ -35,20 +35,12 @@ services:
 
   crawler:
     networks:
-      - new
+      - raim
     build: crawler
     depends_on:
       - db
 
 
 networks:
-  new:
-  version: '3.8'
-  services:
-    crawlerBack:
-      container_name: crawlerbackend
-      image: "${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/${CI_COMMIT_BRANCH}"
-      environment:
-        - DB_CONNECTION_STRING=Host=10.0.1.4;Port=5432;Database=postgres;Username=postgres;Password=postgres
-      ports:
-        - "5003:80"
+  raim:
+    external: true

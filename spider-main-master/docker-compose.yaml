@@ -43,3 +43,12 @@ services:
 
 networks:
   new:
+  version: '3.8'
+  services:
+    crawlerBack:
+      container_name: crawlerbackend
+      image: "${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/${CI_COMMIT_BRANCH}"
+      environment:
+        - DB_CONNECTION_STRING=Host=10.0.1.4;Port=5432;Database=postgres;Username=postgres;Password=postgres
+      ports:
+        - "5003:80"

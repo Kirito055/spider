@@ -2,7 +2,7 @@ FROM golang:alpine AS scrapper
 WORKDIR /app
 RUN apk add --no-cache git
 
-COPY . .
+COPY scrapper .
 
 RUN go build -o app ./cmd/api/main.go
 
@@ -11,7 +11,7 @@ WORKDIR /app
 
 COPY --from=scrapper /app/app .
 
-COPY conf.env .
+COPY scrapper/conf.env .
 
 EXPOSE 8080
 
